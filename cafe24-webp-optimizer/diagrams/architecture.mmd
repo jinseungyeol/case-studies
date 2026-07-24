@@ -1,0 +1,16 @@
+flowchart TD
+    subgraph 등록·변환
+        SCAN[본문 스캔<br/>이미지 URL 수집] --> LEDGER[(장부 DB<br/>위치 장부 + 내용 장부<br/>콘텐츠 해시로 연결)]
+        LEDGER --> JOB[변환 큐 — pg-boss] --> CONV[sharp WebP 변환] --> GCS[(비공개 GCS<br/>해시 주소 저장 — dedup)]
+    end
+    subgraph 서빙
+        USER[방문자 브라우저] --> SNIP[스킨 head 동기 스니펫<br/>상세 지면에서만 이미지 로드 선점]
+        SNIP --> GW["서빙 게이트웨이 /imgo"]
+        GW -->|상태 = COMPRESSED| WEBP[WebP 응답 — CDN]
+        GW -->|그 외| ORIG[원본으로 302 폴백]
+    end
+    subgraph 운영 가드
+        DRIFT[매일 드리프트 스캔<br/>본문 ↔ 장부 URL 대조] --> LEDGER
+        ETAG[ETag 순환 스윕<br/>내용 변경 감지 → 재압축] --> LEDGER
+        WD[라이브 워치독<br/>스니펫 소실 감지]
+    end

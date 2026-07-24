@@ -1,0 +1,10 @@
+flowchart TD
+    A[자연어 요청 / 코드 변경] --> B[main push]
+    B --> C["브랜드별 배포 워크플로<br/>(staging 스킨, 변경분만 전송)"]
+    C --> D[staging URL 검증 — 사람]
+    D -->|운영 반영 명시 요청| E[promote 워크플로]
+    E --> F{M-smart 검증<br/>운영 파일 hash 대조}
+    F -->|일치| G[운영 스킨 반영<br/>+ prod 태그]
+    F -->|충돌 감지| H[배포 중단<br/>admin 직접 수정 발견]
+    H --> I[import 워크플로<br/>운영 → 저장소 역방향 동기화]
+    I --> B
