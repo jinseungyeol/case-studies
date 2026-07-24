@@ -1,10 +1,10 @@
 flowchart TD
     SRC["판매 채널 셀러 센터<br/>(광고비·매출)"] --> CR["수집 계층<br/>실제 브라우저 + 계정별 영속 프로필<br/>사람 유사 입력"]
-    CR --> GS[Google Sheets<br/>매출팀 실시간 공유]
+    CR --> GS["Google Sheets<br/>매출팀 실시간 공유"]
     CR --> BQ[("BigQuery<br/>append-only + CDC (전일 확정치)")]
     CR --> IQ[("BigQuery intraday<br/>당일 시간별 스냅샷")]
-    BQ --> SV[서버팀 silver 계층<br/>중복 제거·최신값 수렴]
+    BQ --> SV["서버팀 silver 계층<br/>중복 제거·최신값 수렴"]
 
-    CR -->|실행 실패| AL[Slack 실패 요약 DM]
-    BQ -->|적재값 이상| DG[Slack 이상탐지 다이제스트 DM]
+    CR -->|"실행 실패"| AL["Slack 실패 요약 DM"]
+    BQ -->|"적재값 이상"| DG["Slack 이상탐지 다이제스트 DM"]
     AL --> DIAG["자동진단 봇<br/>AI가 원인 분석 → DM 회신"]

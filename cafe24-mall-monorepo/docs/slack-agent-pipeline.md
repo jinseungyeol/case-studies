@@ -14,18 +14,18 @@
 
 ```mermaid
 flowchart TD
-    U[요청자] -->|접수 폼 제출| WF1[Slack 워크플로 빌더<br/>접수 폼]
-    WF1 -->|Sheets 커넥터| SH[(Google Sheets<br/>접수 시트)]
-    SH -->|onChange 트리거| GAS[Apps Script 다리<br/>중복 방지 lock·미전송 백필]
-    GAS -->|repository_dispatch| GH[GitHub Actions]
-    GH --> AI[Claude Code 헤드리스<br/>가드 프롬프트 주입]
-    AI -->|수정·push| STG[staging 자동 배포]
-    GH -->|웹훅| WF2[결과 게시 워크플로<br/>✅ staging 링크 / ❓ 보완 / ❌ 실패]
+    U["요청자"] -->|"접수 폼 제출"| WF1["Slack 워크플로 빌더<br/>접수 폼"]
+    WF1 -->|"Sheets 커넥터"| SH[("Google Sheets<br/>접수 시트")]
+    SH -->|"onChange 트리거"| GAS["Apps Script 다리<br/>중복 방지 lock·미전송 백필"]
+    GAS -->|"repository_dispatch"| GH["GitHub Actions"]
+    GH --> AI["Claude Code 헤드리스<br/>가드 프롬프트 주입"]
+    AI -->|"수정·push"| STG["staging 자동 배포"]
+    GH -->|"웹훅"| WF2["결과 게시 워크플로<br/>✅ staging 링크 / ❓ 보완 / ❌ 실패"]
     WF2 --> U
-    U -->|staging 확인 후| WF3[운영 반영 확정 워크플로<br/>요청번호 입력]
-    WF3 --> GH2[확정 job — 자동 검증]
-    GH2 -->|전부 통과| PROD[자동 promote → 운영 링크 게시]
-    GH2 -->|하나라도 걸림| OWNER[담당자 멘션 →<br/>비공개 채널 승인 폼]
+    U -->|"staging 확인 후"| WF3["운영 반영 확정 워크플로<br/>요청번호 입력"]
+    WF3 --> GH2["확정 job — 자동 검증"]
+    GH2 -->|"전부 통과"| PROD["자동 promote → 운영 링크 게시"]
+    GH2 -->|"하나라도 걸림"| OWNER["담당자 멘션 →<br/>비공개 채널 승인 폼"]
 ```
 
 **평상시 운영 반영에 담당자 개입 0** — 요청자가 스스로 확정하면 자동 검증(①확정자 = 원 요청자 본인 ②해당 브랜드 대기 변경이 이 건뿐 ③민감 유형 아님)을 거쳐 promote까지 완결된다. 예외만 담당자에게 멘션이 가고, 모바일 3탭으로 승인한다.

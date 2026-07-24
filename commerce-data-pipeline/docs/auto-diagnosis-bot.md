@@ -10,15 +10,15 @@
 
 ```mermaid
 flowchart TD
-    F[파이프라인 실패] -->|알림 JSON 드롭| Q[(diagnosis_queue/<br/>스키마 v1)]
-    Q --> D[디스패처 — 5분 주기]
-    D -->|필터 통과| W[격리 worktree에서<br/>Claude Code 헤드리스 실행]
-    D -->|필터 차단| X[스킵 — 쿨다운·노이즈·상한]
-    W --> R[diagnosis.md 작성<br/>분류·원인·수정안]
-    W -.->|SELECT 전용 래퍼| BQ[(BigQuery)]
-    W -.->|읽기 전용| EV[실패 스크린샷·DOM 덤프<br/>staging JSON·과거 이력]
-    R --> DM[Slack 워크플로 웹훅<br/>→ 담당자 DM]
-    DM -->|전송 실패| OB[outbox 재시도]
+    F["파이프라인 실패"] -->|"알림 JSON 드롭"| Q[("diagnosis_queue/<br/>스키마 v1")]
+    Q --> D["디스패처 — 5분 주기"]
+    D -->|"필터 통과"| W["격리 worktree에서<br/>Claude Code 헤드리스 실행"]
+    D -->|"필터 차단"| X["스킵 — 쿨다운·노이즈·상한"]
+    W --> R["diagnosis.md 작성<br/>분류·원인·수정안"]
+    W -.->|"SELECT 전용 래퍼"| BQ[("BigQuery")]
+    W -.->|"읽기 전용"| EV["실패 스크린샷·DOM 덤프<br/>staging JSON·과거 이력"]
+    R --> DM["Slack 워크플로 웹훅<br/>→ 담당자 DM"]
+    DM -->|"전송 실패"| OB["outbox 재시도"]
 ```
 
 ## 5단계 구축
