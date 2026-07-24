@@ -40,7 +40,7 @@ flowchart TD
 - **push 자동배포 ×13** — 브랜드 폴더 변경 시 해당 브랜드만 staging 스킨에 incremental 배포 (수 초)
 - **staging-first + 명시적 promote** — 운영 반영은 사람이 명시적으로 실행할 때만, hash 대조 게이트를 거쳐서
 - **AI 처리 절차(Claude Code 스킬 ×13)** — 브랜드별로 자연어 요청 → recipe 매칭 → 수정 → 배포 절차를 스킬로 정의, 처리한 요청은 recipe로 자동 누적
-- **Slack 접수 에이전트 파이프라인** — 타팀 요청의 접수→AI 처리→staging→운영 확정까지 무인화하는 설계 + MVP 엔진 코드 (Slack 연동 활성화는 대기, [설계 문서](./docs/slack-agent-pipeline.md))
+- **Slack 접수 에이전트 파이프라인** — 타팀 요청의 접수→AI 처리→staging→운영 확정까지 무인화 (설계 + MVP 엔진 구축, [설계 문서](./docs/slack-agent-pipeline.md))
 - **디자인 시스템 동기화** — 라이브 페이지를 Figma로 추출하는 자체 도구(h2f) + 디자인 토큰 표준화
 - **Cafe24 전용 가드** — phantom 파일(대소문자 중복)·drift·dead partial을 배포 전 게이트로 차단
 
@@ -53,7 +53,7 @@ flowchart TD
 - 가드 스크립트(Python) 및 운영 규율 문서 체계 설계
 - Claude Code 스킬 13종·recipe 체계 설계 (자연어 요청의 AI 처리 절차)
 - h2f(HTML→Figma) 캡처 도구 및 디자인 토큰 파이프라인 구현
-- Slack 접수 에이전트 파이프라인 설계 및 MVP 엔진 코드 작성 (실운영 활성화 대기)
+- Slack 접수 에이전트 파이프라인 설계 및 MVP 구축
 
 ## 성과
 
