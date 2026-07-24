@@ -21,11 +21,11 @@ erDiagram
         string scope "어느 상품·어느 위치의"
         string url "어떤 URL 이미지가"
         string status "어떤 상태인가"
+        string etag "원본 변경 감지용 지문 (URL 단위)"
     }
     CONTENT {
         string hash "내용 지문 (해시)"
         string storagePath "변환본 저장 주소 (해시 기반)"
-        string etag "원본 변경 감지용 지문"
     }
 ```
 

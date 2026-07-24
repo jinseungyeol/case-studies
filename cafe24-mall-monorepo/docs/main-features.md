@@ -38,7 +38,7 @@ change_recipes:
 
 ## 4. Slack 접수 에이전트 파이프라인
 
-타팀의 수정 요청이 "DM → 담당자 복붙 → 처리 → 회신"으로 흐르던 중간다리를 제거하는 자동화. 접수 폼 → AI 헤드리스 처리 → staging 반영 → 결과 회신 → 요청자 확정 시 자동 운영 배포까지. 상세 설계는 [slack-agent-pipeline.md](./slack-agent-pipeline.md).
+타팀의 수정 요청이 "DM → 담당자 복붙 → 처리 → 회신"으로 흐르던 중간다리를 제거하려는 자동화. 접수 폼 → AI 헤드리스 처리 → staging 반영 → 결과 회신 → 요청자 확정 시 자동 운영 배포까지의 흐름을 설계하고 MVP 엔진 코드를 작성했다(설계·엔진 완성 / Slack 연동 활성화 대기). 상세는 [slack-agent-pipeline.md](./slack-agent-pipeline.md).
 
 ## 5. 디자인 시스템 동기화 (h2f 파이프라인)
 

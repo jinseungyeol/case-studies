@@ -10,23 +10,31 @@
 
 계정과 지점을 분리(회원-프로필 구조)하는 일반 설계 대비, 도메인상 "지점 외 사용자"가 존재하지 않는다는 사실을 받아들여 모델을 단순화한 선택.
 
-## 홈쇼핑 신청 데이터 모델 — 차수(round)
+## 홈쇼핑 신청 데이터 모델 — 채널·차수 축
+
+별도 테이블을 만드는 대신, 신청 엔티티 하나에 **채널·차수를 축(컬럼)으로** 얹는 방식을 택했다.
 
 ```mermaid
 erDiagram
-    CHANNEL ||--o{ ROUND : "방송 회차"
-    ROUND ||--o{ APPLICATION : "회차별 신청"
-    ROUND }o--o{ STORE : "회차별 매장 라인업"
-    STORE }o--o{ REGION : "권역 (다대다)"
-
-    CHANNEL { string name "홈쇼핑 채널" }
-    ROUND { string label "차수" }
-    APPLICATION { string applicant "신청자 정보" }
+    HOMESHOPPING {
+        string channel "홈쇼핑 채널 (CharField choices)"
+        int round "차수 (IntegerField)"
+        string applicant "신청자 정보"
+        string location_name "선택 매장 (문자열 스냅샷)"
+    }
+    USER {
+        string branch "지점 (계정=지점)"
+    }
+    REGION {
+        string name "권역"
+    }
+    USER }o--o{ REGION : "M2M (권역 편성)"
 ```
 
-- TV 방송은 회차 단위로 나가고, 신청도 회차에 귀속된다 — **차수를 1급 엔티티로** 올려 회차별 데이터 분리·마감·라인업을 모델로 표현
-- 신청 가능 차수는 허용 리스트로 제어 — 방송 일정 변경 시 코드 수정 없이 한 줄 변경
-- 채널이 1급 엔티티이므로 신규 홈쇼핑 채널 추가가 스키마 변경이 아니라 행 추가
+- 신청은 단일 `Homeshopping` 모델에 `channel`(CharField·choices) + `round`(IntegerField) 컬럼 + 복합 인덱스로 관리 — 별도 Channel/Round 테이블 없음
+- 회차별 참여 매장 라인업은 DB 관계가 아니라 정적 파이썬 데이터(`get_locations(channel, round)`)로 관리
+- 신청 가능 차수는 뷰의 허용 리스트(`active_rounds`) 한 줄로 제어 — 방송 오픈/마감이 코드 한 줄 변경
+- 신규 채널 추가는 마이그레이션(choices에 항목 추가) + 뷰·URL·템플릿·매장 데이터 추가가 필요하지만, **신청 로직 자체는 공용 폼 함수(`homeshopping_form`) 하나를 채널별로 래핑**해 중복 없이 확장한다
 
 ## 방문자 집계 — 미들웨어 계층
 
