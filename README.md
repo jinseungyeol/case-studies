@@ -9,7 +9,7 @@
 | 프로젝트 | 한 줄 요약 | 시작하기 |
 |---|---|---|
 | [Cafe24 멀티브랜드 모노레포](./cafe24-mall-monorepo/) | 13개 D2C 자사몰 스킨을 한 repo에서 버전 관리·자동배포 — Slack 요청 접수→AI 처리→운영 반영까지 자동화, 퍼블리셔 3인 분담을 1인 전담으로 | [README](./cafe24-mall-monorepo/README.md) |
-| [커머스 데이터 파이프라인](./commerce-data-pipeline/) | 13개 브랜드 광고비·매출 자동 수집 → Sheets/BigQuery 적재 + 실패 자동진단 봇 | [README](./commerce-data-pipeline/README.md) |
+| [커머스 데이터 파이프라인](./commerce-data-pipeline/) | 13개 브랜드 광고비·매출 자동 수집 → Sheets/BigQuery 적재 + 교차검증 게이트, 아침 Slack 리포트 | [README](./commerce-data-pipeline/README.md) |
 | [Cafe24 WebP 최적화 앱](./cafe24-webp-optimizer/) | 본문 HTML을 건드리지 않는(clean-body) 상품 이미지 WebP 파이프라인 — 평균 84% 용량 절감 | [README](./cafe24-webp-optimizer/README.md) |
 | [칼로리바](./caloriebar/) | 프랜차이즈 고객 홈페이지 + 지점 백오피스 (Django) — 홈쇼핑 다채널 신청 시스템 | [README](./caloriebar/README.md) |
 

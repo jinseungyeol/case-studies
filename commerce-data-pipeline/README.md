@@ -1,15 +1,14 @@
 # 커머스 채널 데이터 수집 자동화 파이프라인
 
-> 여러 커머스 채널에 흩어진 13개 브랜드의 광고비·매출을 매시간 자동 수집해 Google Sheets와 BigQuery에 적재하고, 실패하면 AI가 원인을 자동 진단해 Slack DM으로 회신하는 데이터 파이프라인.
+> 여러 커머스 채널에 흩어진 13개 브랜드의 광고비·매출을 매시간 자동 수집해 Google Sheets와 BigQuery에 적재하고, 적재 전 교차검증과 매일 아침 Slack 리포트로 정합성을 확인하는 데이터 파이프라인.
 
-- **참여도**: 75% — 파이프라인 설계·개발 (크롤러 / API 연동 / 적재 / 정합성 검증 / 자동진단 봇)
+- **참여도**: 75% — 파이프라인 설계·개발 (크롤러 / API 연동 / 적재 / 정합성 검증)
 
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Patchright-2EAD33?logo=playwright&logoColor=white)
 ![BigQuery](https://img.shields.io/badge/BigQuery-669DF6?logo=googlebigquery&logoColor=white)
 ![Google Sheets](https://img.shields.io/badge/Google_Sheets-34A853?logo=googlesheets&logoColor=white)
 ![Slack](https://img.shields.io/badge/Slack-4A154B?logo=slack&logoColor=white)
-![Claude Code](https://img.shields.io/badge/Claude_Code-D97757?logo=anthropic&logoColor=white)
 
 ## 문제
 
@@ -27,7 +26,6 @@ flowchart TD
 
     CR -->|"실행 실패"| AL["Slack 실패 요약 DM"]
     BQ -->|"적재값 이상"| DG["Slack 이상탐지 다이제스트 DM"]
-    AL --> DIAG["자동진단 봇<br/>AI가 원인 분석 → DM 회신"]
 ```
 
 자세한 구조는 [docs/architecture.md](./docs/architecture.md) 참고.
@@ -38,7 +36,8 @@ flowchart TD
 - **다중 적재** — 매출팀용 Sheets / 누적 분석용 BigQuery(전일 확정) / 당일 시간별 스냅샷 세 경로 분기
 - **거짓 성공 방지** — 빈 표·스테일 값·우연히 맞는 합계 등 "성공처럼 보이는 실패"를 다층 검증으로 차단
 - **두 층의 Slack 알림** — 실행 실패 요약과 적재값 이상 다이제스트를 분리 운영
-- **실패 자동진단 봇** — 실패 알림을 AI(Claude Code 헤드리스)가 격리 환경에서 조사해 원인·수정안을 DM으로 회신 ([설계 문서](./docs/auto-diagnosis-bot.md))
+- **교차검증 게이트** — 적재 전에 성과 그래프의 일별 시계열과 원 단위로 대조하고 캠페인 행수를 검증, 불일치면 적재 차단
+- **아침 자동 Slack 리포트** — 전날 수집 결과를 매일 아침 Slack으로 자동 보고
 
 자세한 설명은 [docs/main-features.md](./docs/main-features.md) 참고.
 
@@ -47,13 +46,12 @@ flowchart TD
 - 봇 차단·UI 드리프트에 견디는 수집 계층 설계·구현
 - BigQuery append-only + CDC 적재 구조 및 최소 권한 서비스 계정 설계
 - 정합성 검증(거짓 성공 방지)·이상탐지 다이제스트 구현
-- 실패 자동진단 봇 전체 설계·구현 (큐 → 디스패처 → 격리 진단 → DM 회신)
 - 운영 배포 체계(git 기반, Windows 작업 스케줄러) 구축
 
 ## 성과
 
 - **수기 집계 대비 일 2~3시간 절감** (13개 브랜드 자동 수집)
-- 실패 원인 파악이 "사람이 스크린샷·로그를 여는 작업"에서 "AI 진단 DM을 받아 보는 것"으로 — 조사 루프 자체를 위임
+- 적재 전 교차검증으로 "성공처럼 보이는 실패"를 차단하고, 매일 아침 Slack 리포트로 상태 확인에 드는 시간을 없앰
 
 ## 문서
 
@@ -63,4 +61,3 @@ flowchart TD
 | [tech-stack.md](./docs/tech-stack.md) | 실브라우저·BigQuery CDC·최소 권한 등 선택 이유 |
 | [main-features.md](./docs/main-features.md) | 주요 기능 상세 |
 | [troubleshooting.md](./docs/troubleshooting.md) | 봇 차단·셀렉터 드리프트·데이터 정합성 사례 |
-| [auto-diagnosis-bot.md](./docs/auto-diagnosis-bot.md) | 실패 자동진단 봇 설계 문서 |
