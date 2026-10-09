@@ -38,7 +38,7 @@ diagrams/               mermaid 다이어그램 소스
 - **오판의 무해화** — 판정 정확도를 높이기보다, 오판해도 피해가 없는 구조(비대칭 기준·기계 가드·구조적 격리)를 먼저 만든다
   - [모노레포](./cafe24-mall-monorepo/)의 Slack 에이전트 : 애매하면 수동 전환(비대칭 기준), diff 상한 초과 시 AI 판단과 무관하게 강제 수동(기계 가드), 오판해도 staging까지만 도달(구조적 격리)
   - [WebP 앱](./cafe24-webp-optimizer/) : 본문 write 경로 자체가 없는 clean-body 구조 — 시스템이 어떻게 오동작해도 본문 HTML은 불가침
-  - [데이터 파이프라인](./commerce-data-pipeline/)의 자동진단 봇 : 격리 환경에서 조사만 하고 수정안은 DM 제안으로 — 오진해도 파이프라인·데이터를 직접 건드리지 않음
+  - [데이터 파이프라인](./commerce-data-pipeline/)의 교차검증 게이트 : 시계열 대조가 하나라도 어긋나면 적재 자체를 차단 — 검증이 틀려도 틀린 값이 조용히 들어가는 쪽으로는 실패하지 않음
 - **단일 진실(single source of truth)** — 사본은 낡는다. 설정·번호·절차는 한 곳에만 두고 실행 시점에 읽는다
   - [모노레포](./cafe24-mall-monorepo/) : 스킨 번호·recipe·Figma 매핑은 브랜드별 `mapping.yaml` 한 곳, 유효한 절차·확정값은 CURRENT.md 한 곳 — 문서에 사본 복제 금지
   - [WebP 앱](./cafe24-webp-optimizer/) : 서빙 여부는 장부 DB 상태 하나로 판정 — 롤백·재최적화가 DB 상태 변경만으로 발효
