@@ -2,7 +2,7 @@
 
 > 여러 커머스 채널에 흩어진 13개 브랜드의 광고비·매출을 매시간 자동 수집해 Google Sheets와 BigQuery에 적재하고, 적재 전 교차검증과 매일 아침 Slack 리포트로 정합성을 확인하는 데이터 파이프라인.
 
-- **참여도**: 75% — 파이프라인 설계·개발 (크롤러 / API 연동 / 적재 / 정합성 검증)
+- **참여도**: 100% — 파이프라인 설계·개발 (크롤러 / API 연동 / 적재 / 정합성 검증)
 
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Patchright-2EAD33?logo=playwright&logoColor=white)
