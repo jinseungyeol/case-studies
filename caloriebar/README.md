@@ -54,3 +54,4 @@ flowchart TD
 | [tech-stack.md](./docs/tech-stack.md) | Django·MySQL 선택과 환경 분리 |
 | [main-features.md](./docs/main-features.md) | 주요 기능 상세 |
 | [troubleshooting.md](./docs/troubleshooting.md) | 무손실 마이그레이션·중복 집계 해결 |
+| [inbound-tracking.md](./docs/inbound-tracking.md) | 광고 유입 파라미터를 세션으로 받아 예약에 붙이는 구조 |

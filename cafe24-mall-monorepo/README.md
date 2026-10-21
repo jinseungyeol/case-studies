@@ -70,3 +70,4 @@ flowchart TD
 | [main-features.md](./docs/main-features.md) | 주요 기능 상세 |
 | [troubleshooting.md](./docs/troubleshooting.md) | Cafe24 종특 함정과 해결 과정 |
 | [slack-agent-pipeline.md](./docs/slack-agent-pipeline.md) | Slack 접수 에이전트 설계 문서 |
+| [tracking-integrity.md](./docs/tracking-integrity.md) | GA4 구매 이벤트 누락 수정, 외부 추적 스크립트 조사와 제거 |
